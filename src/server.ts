@@ -1,5 +1,5 @@
 import express from "express";
-
+import "dotenv/config";
 const app = express();
 const puerto = 3000;
 
