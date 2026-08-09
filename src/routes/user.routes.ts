@@ -20,5 +20,5 @@ userRouter
         errors: z.treeifyError(userToCreate.error),
       });
     }
-    return res.json(userToCreate.data);
+    return res.status(201).json(userToCreate.data);
   });
