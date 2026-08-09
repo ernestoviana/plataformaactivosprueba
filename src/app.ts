@@ -4,6 +4,7 @@ import swaggerUi from "swagger-ui-express";
 import { userRouter } from "./routes/user.routes.js";
 import { openApiDocument } from "./openapi/document.js";
 import { authenticationMiddleware } from "./middleware/auth.middleware.js";
+import { walletRouter } from "./routes/wallet.routes.js";
 
 export const app = express();
 
@@ -18,3 +19,4 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
 app.use(authenticationMiddleware);
 
 app.use("/users", userRouter);
+app.use("/wallets", walletRouter);
