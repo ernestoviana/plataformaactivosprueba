@@ -12,6 +12,15 @@ export async function getExchange(id: string) {
   return exchange;
 }
 
+export async function getExchangeByIdempotencyKey(idempotencyKey: string) {
+  const exchange = await db
+    .selectFrom("exchanges")
+    .selectAll()
+    .where("idempotency_key", "=", idempotencyKey)
+    .executeTakeFirst();
+  return exchange;
+}
+
 export async function getPendingExchanges() {
   const exchanges = await db
     .selectFrom("exchanges")
@@ -27,7 +36,7 @@ export async function createExchange(input: CreateExchangeInput) {
     .values({
       id: randomUUID(),
       quote_id: input.quote_id,
-      idempotency_key: randomUUID(),
+      idempotency_key: input.idempotency_key || randomUUID(),
       requires_followup: false,
       status: "CREATED",
     })

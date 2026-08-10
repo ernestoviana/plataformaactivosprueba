@@ -4,11 +4,15 @@ import { db } from "../../db/db.js";
 import { CreateLedgerInput } from "./ledger.schema.js";
 
 export async function createLedger(input: CreateLedgerInput) {
-  return db.insertInto("ledger").values({
-    id: randomUUID(),
-    wallet_id: input.wallet_id,
-    created_date: new Date().toISOString(),
-  });
+  return db
+    .insertInto("ledger")
+    .values({
+      id: randomUUID(),
+      wallet_id: input.wallet_id,
+      created_date: new Date().toISOString(),
+    })
+    .returningAll()
+    .executeTakeFirst();
 }
 
 export async function getLedgerByWalletId(walledId: string) {
@@ -17,4 +21,8 @@ export async function getLedgerByWalletId(walledId: string) {
     .selectAll()
     .where("wallet_id", "=", walledId)
     .executeTakeFirst();
+}
+
+export async function removeAllLedgers() {
+  return db.deleteFrom("ledger").execute();
 }

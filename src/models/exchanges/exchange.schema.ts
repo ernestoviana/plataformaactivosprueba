@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const createExchangeSchema = z.object({
   quote_id: z.uuid(),
+  idempotency_key: z.string().optional(),
 });
 
 export type CreateExchangeInput = z.infer<typeof createExchangeSchema>;

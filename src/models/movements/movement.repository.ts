@@ -10,3 +10,16 @@ export async function getMovementsByLedgerId(ledgerId: string) {
     .execute();
   return movements;
 }
+
+export async function getMovementsByExchangeId(exchangeId: string) {
+  const movements = await db
+    .selectFrom("movements")
+    .selectAll()
+    .where("exchange_id", "=", exchangeId)
+    .execute();
+  return movements;
+}
+
+export async function removeAllMovements() {
+  return db.deleteFrom("movements").execute();
+}

@@ -18,9 +18,9 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("current_balance", "numeric(18, 2)", (col) => col.notNull())
     .addColumn("new_balance", "numeric(18, 2)", (col) => col.notNull())
     .addColumn("sequence", "integer", (col) => col.notNull())
-    .addColumn("previous_hash", "varchar(255)", (col) => col.notNull())
+    .addColumn("previous_hash", "varchar(255)")
     .addColumn("hash", "varchar(255)", (col) => col.notNull())
-    .addColumn("execution_date", "timestamp", (col) => col.notNull())
+    .addColumn("execution_date", "timestamptz", (col) => col.notNull())
     .addUniqueConstraint("movements_ledger_id_unique", [
       "ledger_id",
       "sequence",

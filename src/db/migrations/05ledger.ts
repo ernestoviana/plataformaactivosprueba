@@ -7,7 +7,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("wallet_id", "uuid", (col) =>
       col.notNull().references("wallets.id").onDelete("cascade")
     )
-    .addColumn("created_date", "timestamp", (col) => col.notNull())
+    .addColumn("created_date", "timestamptz", (col) => col.notNull())
     .execute();
 }
 

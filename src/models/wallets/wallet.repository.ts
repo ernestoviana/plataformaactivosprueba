@@ -12,6 +12,15 @@ export async function getWalletsByUserId(userId: string) {
   return wallets;
 }
 
+export async function getWalletById(id: string) {
+  const wallet = await db
+    .selectFrom("wallets")
+    .selectAll()
+    .where("id", "=", id)
+    .executeTakeFirst();
+  return wallet;
+}
+
 export async function createWallet(input: CreateWalletInput) {
   return db
     .insertInto("wallets")
