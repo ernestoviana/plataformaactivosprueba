@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "99f742bc-744b-4b3f-85d5-b7ba1fdd34a2",
+		"name": "PlataformaActivos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15851811"
+	},
+	"item": [
+		{
+			"name": "Create Quote",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "user-001",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount_to_transfer\": \"5000\",\n    \"asset_quote_type\": \"USDT_XAUT\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/quotes/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"quotes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Exchange",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "user-001",
+						"type": "text"
+					},
+					{
+						"key": "Idempotency-Key",
+						"value": "gggggdd",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quote_id\": \"23c2d3e5-dc78-4c6f-b661-0a180b08ef6e\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/exchanges",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"exchanges"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Exchange",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "user-001",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/exchanges/140cdaae-ee17-4ae8-aec5-93f7b51c8c72",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"exchanges",
+						"140cdaae-ee17-4ae8-aec5-93f7b51c8c72"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wallets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "user-001",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/wallets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wallets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wallets Movements",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "user-001",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/wallets/ec5dfd26-9a17-4ca7-823a-67d84a79d14a/movements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wallets",
+						"ec5dfd26-9a17-4ca7-823a-67d84a79d14a",
+						"movements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pending Exchanges",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "compliance-001",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/compliance/exchanges/pending",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"compliance",
+						"exchanges",
+						"pending"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve Exchange",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "compliance-001",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/compliance/exchanges/eff96fe5-5313-45f2-acba-a52a842e8431/approve",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"compliance",
+						"exchanges",
+						"eff96fe5-5313-45f2-acba-a52a842e8431",
+						"approve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reject Exchange",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "compliance-001",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/compliance/exchanges/140cdaae-ee17-4ae8-aec5-93f7b51c8c72/reject",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"compliance",
+						"exchanges",
+						"140cdaae-ee17-4ae8-aec5-93f7b51c8c72",
+						"reject"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
