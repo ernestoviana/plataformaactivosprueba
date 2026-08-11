@@ -129,6 +129,9 @@ Para llevar a cabo este proyecto se utilizaron las siguientes herramientas:
 
 ### Herramientas IA
 
+Windsurf: Autocompletado editor de código
+ChatGPT: Preguntas conceptuales financieras
+
 # Ejemplos API
 
 Con el proposito de facilitar el uso de la plataforma, se generó una colección de postman que puede ser cargada al programa para poder ver llamados reales y como se pueden consultar, estos ya tienen información como los Headers y otros elementos relacionados. **Es importante aclarara que los ids van a cambiar según la transacción que se vaya a hacer en ese momento.**
@@ -140,3 +143,59 @@ Con el proposito de facilitar el uso de la plataforma, se generó una colección
 En el siguiente enlace se encuentra la propuesta de las pantallas de visualización de una app que podría consumir los servicios expuestos por esta plataforma;
 
 ## [Visualizar maqueta](https://excalidraw.com/#json=-jrkmqXOxD-Wip9ANFc0S,orzqEwjMJEsoQG21ybmOyQ)
+
+# Preguntas de diseño
+
+### a. Emisión y colocación
+
+Ampliaría el modelo agregando una entidad de emisión que mantenga, por activo, el suministro autorizado, emitido y colocado.
+
+También mantendría un historial de tramos de emisión para conservar trazabilidad y poder auditar cuánto fue emitido y colocado en cada etapa.
+
+### b. Transferencias internas
+
+Las transferencias entre usuarios seguirían el mismo enfoque usado para los exchanges: una única transacción de base de datos que bloquee las wallets involucradas, valide fondos disponibles, genere los movimientos correspondientes en cada ledger y actualice los balances.
+
+La operación tendría un Idempotency-Key único para evitar duplicados en reintentos. Los movimientos conservarían secuencia, `previous_hash` y `hash`, permitiendo mantener una cadena auditable por ledger.
+
+Si cualquier parte de la operación falla, se realiza rollback completo para evitar estados parciales.
+
+### c. Custodia
+
+El ledger interno representaría la distribución contable de los activos entre los usuarios, mientras que con fireblocks podría manejar una billetera externa.
+
+Implementaría un proceso periódico de reconciliación que compare el total interno por activo contra el balance reportado por el custodio.
+
+Por ejemplo:
+
+`SUM(wallets USDT internas) == balance USDT en Fireblocks`
+
+Las diferencias se registrarían y generarían alertas para identificar casos de incosistencias de diferentes tipos
+
+### d. Cumplimiento
+
+Las operaciones que requieran validación previa utilizarían un enfoque `fail closed`.
+
+Si un proveedor externo como Sumsub o Chainalysis no responde, retorna un error o supera el timeout, la operación no se ejecutaría. El intercambio podría mantenerse en un estado pendiente de validación para ser reintentado posteriormente.
+
+Esto es similar al servicio externo simulado en el proyecto, que puede devolver una clasificación de riesgo o fallar para representar indisponibilidad de una dependencia externa.
+
+### e. Producción
+
+Antes de utilizar esta solución en una plataforma regulada reemplazaría los mecanismos simplificados del demo por controles más reales de producción.
+
+Entre ellos incluiría autenticación real mediante OAuth/JWT y MFA, autorización basada en roles, cifrado en tránsito y en reposo, auditoría de operaciones, observabilidad, alertas, rate limiting, backups, reconciliaciones automáticas y pruebas de concurrencia.
+
+Y pues dependiendo del background que se tenga que hacer sobre la persona para temas de validación, como KYC y AML.
+
+### f. Emisión on-chain
+
+Mantendría separadas las responsabilidades entre la plataforma, el smart contract, la custodia y los procesos de auditoría.
+
+La plataforma interna sería responsable de usuarios, compliance, intercambio, balances internos y reglas de negocio.
+
+El smart contract debería limitarse a las reglas estrictamente necesarias on-chain.
+
+La custodia de claves privadas debería quedar en una solución especializada como Fireblocks o HSM, evitando que la aplicación tenga acceso directo a las claves.
+
+Esta separación reduce el riesgo de que un único componente o actor controle simultáneamente la emisión, la custodia y la validación del respaldo.
