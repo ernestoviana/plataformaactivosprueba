@@ -142,7 +142,7 @@ Con el proposito de facilitar el uso de la plataforma, se generó una colección
 
 En el siguiente enlace se encuentra la propuesta de las pantallas de visualización de una app que podría consumir los servicios expuestos por esta plataforma;
 
-## [Visualizar maqueta](https://excalidraw.com/#json=-jrkmqXOxD-Wip9ANFc0S,orzqEwjMJEsoQG21ybmOyQ)
+## [Visualizar maqueta](https://excalidraw.com/#json=gstvSBrmtTD4o0_8l2vD4,6mK91wy5d_C0Uo_Ql7w2Pw)
 
 # Preguntas de diseño
 
